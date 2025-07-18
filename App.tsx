@@ -12,13 +12,13 @@ import Chatbot from './components/Chatbot';
 
 const CustomCursor: React.FC = () => {
   const cursorDotRef = useRef<HTMLDivElement>(null);
-  const cursorOutlineRef = useRef<HTMLDivElement>(null);
+  const cursorBubbleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const cursorDot = cursorDotRef.current;
-    const cursorOutline = cursorOutlineRef.current;
+    const cursorBubble = cursorBubbleRef.current;
 
-    if (!cursorDot || !cursorOutline) return;
+    if (!cursorDot || !cursorBubble) return;
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
@@ -37,8 +37,8 @@ const CustomCursor: React.FC = () => {
 
       cursorDot.style.left = `${mouseX}px`;
       cursorDot.style.top = `${mouseY}px`;
-      cursorOutline.style.left = `${outlineX}px`;
-      cursorOutline.style.top = `${outlineY}px`;
+      cursorBubble.style.left = `${outlineX}px`;
+      cursorBubble.style.top = `${outlineY}px`;
 
       animationFrameId = requestAnimationFrame(animate);
     };
@@ -46,25 +46,25 @@ const CustomCursor: React.FC = () => {
     const handleMouseOver = (e: Event) => {
         const target = e.target as HTMLElement;
         if (target.closest('a, button, input, textarea, [role="button"], .group, .cursor-pointer')) {
-            cursorOutline.classList.add('enlarged');
+            cursorBubble.classList.add('enlarged');
         }
     };
     
     const handleMouseOut = (e: Event) => {
         const target = e.target as HTMLElement;
         if (target.closest('a, button, input, textarea, [role="button"], .group, .cursor-pointer')) {
-            cursorOutline.classList.remove('enlarged');
+            cursorBubble.classList.remove('enlarged');
         }
     };
     
     const handleMouseEnterBody = () => {
         cursorDot.style.opacity = '1';
-        cursorOutline.style.opacity = '1';
+        cursorBubble.style.opacity = '1';
     };
 
     const handleMouseLeaveBody = () => {
         cursorDot.style.opacity = '0';
-        cursorOutline.style.opacity = '0';
+        cursorBubble.style.opacity = '0';
     };
 
     document.addEventListener('mousemove', onMouseMove);
@@ -88,7 +88,7 @@ const CustomCursor: React.FC = () => {
   return (
     <>
       <div ref={cursorDotRef} className="cursor-dot"></div>
-      <div ref={cursorOutlineRef} className="cursor-outline"></div>
+      <div ref={cursorBubbleRef} className="cursor-bubble"></div>
     </>
   );
 };
