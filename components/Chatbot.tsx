@@ -86,7 +86,7 @@ const Chatbot: React.FC = () => {
     <>
       <div className={`fixed bottom-20 right-5 z-50 transition-all duration-300 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
         <div className="relative w-80 h-[28rem] rounded-2xl shadow-2xl">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-2xl blur opacity-75 animate-border-spin"></div>
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl blur opacity-75 animate-border-spin"></div>
           <div className="relative bg-[#101123] w-full h-full rounded-2xl flex flex-col overflow-hidden">
             {/* Header */}
             <div className="flex-shrink-0 p-3 border-b border-white/10 text-center">
@@ -100,7 +100,7 @@ const Chatbot: React.FC = () => {
                 {messages.map((msg, index) => (
                   <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                     {msg.sender === 'user' ? (
-                       <div className={`max-w-[80%] p-2 rounded-lg text-sm bg-pink-600`}>
+                       <div className={`max-w-[80%] p-2 rounded-lg text-sm bg-green-600`}>
                         {msg.text}
                       </div>
                     ) : (
@@ -132,7 +132,7 @@ const Chatbot: React.FC = () => {
                   className="w-full bg-transparent p-2 pl-4 text-sm outline-none"
                   disabled={isLoading}
                 />
-                <button type="submit" disabled={isLoading || !input.trim()} className="p-2 text-pink-400 disabled:text-gray-500 disabled:cursor-not-allowed">
+                <button type="submit" disabled={isLoading || !input.trim()} className="p-2 text-green-400 disabled:text-gray-500 disabled:cursor-not-allowed">
                   <SendIcon />
                 </button>
               </div>
@@ -144,7 +144,7 @@ const Chatbot: React.FC = () => {
       {/* Toggle Button */}
       <button 
         onClick={() => setIsOpen(!isOpen)} 
-        className="fixed bottom-5 right-5 z-50 w-14 h-14 bg-gradient-to-tr from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform"
+        className="fixed bottom-5 right-5 z-50 w-14 h-14 bg-gradient-to-tr from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform"
         aria-label="Toggle Chatbot"
       >
         <div className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}>
