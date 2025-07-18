@@ -65,29 +65,34 @@ const Chatbot: React.FC = () => {
     try {
       const response = await chatRef.current.sendMessageStream({ message: messageText });
       
-      let aiResponseText = '';
       setMessages(prev => [...prev, { sender: 'ai', text: '' }]);
 
+      let aiResponseText = '';
       for await (const chunk of response) {
         aiResponseText += chunk.text;
         setMessages(prev => {
-          const newMessages = [...prev];
-          const lastMessage = newMessages[newMessages.length - 1];
-          if (lastMessage && lastMessage.sender === 'ai') {
-              newMessages[newMessages.length - 1] = { ...lastMessage, text: aiResponseText };
+          const lastMessage = prev[prev.length - 1];
+          // Ensure last message exists and is from AI before updating
+          if (lastMessage?.sender === 'ai') {
+            // Immutable update: create a new array with the last item updated.
+            return [...prev.slice(0, -1), { ...lastMessage, text: aiResponseText }];
           }
-          return newMessages;
+          return prev; // Should not happen in normal flow, but safe fallback
         });
       }
 
     } catch (error) {
       console.error("Error sending message to Gemini:", error);
+      // Fix: Explicitly type `errorMessage` to match the `Message` type.
       const errorMessage: Message = { sender: 'ai', text: "Oops! Something went wrong on my end. Please try again in a moment." };
       setMessages(prev => {
           const lastMessage = prev[prev.length - 1];
-          if (lastMessage?.sender === 'ai' && lastMessage?.text === '') {
+           // If the last message was the empty AI placeholder, replace it with the error.
+          if (lastMessage?.sender === 'ai' && lastMessage.text === '') {
+             // Immutable update: replace the empty streaming message with the error.
             return [...prev.slice(0, -1), errorMessage];
           }
+           // Fallback: just add the error message.
           return [...prev, errorMessage];
       });
     } finally {
