@@ -36,7 +36,7 @@ const PresenceItem: React.FC<{ name: string; url: string; icon: React.ReactNode 
 
 const OnlinePresence: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const entry = useIntersectionObserver(sectionRef, { freezeOnceVisible: true, threshold: 0.2 });
+  const entry = useIntersectionObserver(sectionRef, { freezeOnceVisible: true, threshold: 0.1 });
   const isVisible = !!entry?.isIntersecting;
 
   return (
@@ -48,10 +48,36 @@ const OnlinePresence: React.FC = () => {
       }`}
     >
       <SectionTitle title="Online Presence" icon={<LinkIcon />} />
-       <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-8">
-            {presenceData.map((item) => (
-                <PresenceItem key={item.name} {...item} />
-            ))}
+       <div className="flex flex-col items-center gap-12">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-8">
+                {presenceData.map((item) => (
+                    <PresenceItem key={item.name} {...item} />
+                ))}
+            </div>
+
+            <div className="w-full max-w-4xl mt-8 bg-white/5 border border-white/10 rounded-xl p-4 md:p-6 backdrop-blur-sm">
+                <h3 className="text-xl font-bold text-pink-400 mb-4 text-center">LeetCode Activity</h3>
+                <a 
+                  href="https://leetcode.com/u/hemanthb1412/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  aria-label="View LeetCode Profile"
+                  className="block group transition-transform duration-300 hover:scale-[1.02]"
+                >
+                    <img 
+                        src="https://leetcode-stats-card.herokuapp.com/api/card?username=hemanthb1412&theme=dark&hide_title=true&ring=ec4899" 
+                        alt="Hemanth's LeetCode stats"
+                        className="w-full rounded-md mb-4"
+                        aria-hidden="true"
+                    />
+                    <img 
+                        src="https://leetcard.jacoblin.cool/hemanthb1412?theme=dark&ext=heatmap" 
+                        alt="Hemanth's LeetCode submission heatmap"
+                        className="w-full rounded-md"
+                        aria-hidden="true"
+                    />
+                </a>
+            </div>
         </div>
     </section>
   );
