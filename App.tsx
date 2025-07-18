@@ -1,131 +1,119 @@
-<!DOCTYPE html>
-<html lang="en" style="scroll-behavior: smooth;">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Interactive Portfolio</title>
-    <style>
-      body, a, button, input, textarea, .cursor-pointer, [role="button"] {
-        cursor: none !important;
-      }
+import React, { useEffect, useRef } from 'react';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import ParticleCanvas from './components/ParticleCanvas';
+import Education from './components/WorkAndEducation';
+import TechStack from './components/TechStack';
+import Projects from './components/Projects';
+import Footer from './components/Footer';
+import OnlinePresence from './components/OnlinePresence';
+import Contact from './components/Contact';
+import Chatbot from './components/Chatbot';
 
-      .cursor-dot,
-      .cursor-outline {
-        position: fixed;
-        top: 0;
-        left: 0;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        opacity: 0;
-        transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
-      }
-      
-      .cursor-dot {
-        width: 8px;
-        height: 8px;
-        background-color: #ec4899; /* pink-500 */
-      }
+const CustomCursor: React.FC = () => {
+  const cursorDotRef = useRef<HTMLDivElement>(null);
+  const cursorOutlineRef = useRef<HTMLDivElement>(null);
 
-      .cursor-outline {
-        width: 40px;
-        height: 40px;
-        border: 2px solid rgba(236, 72, 153, 0.5); /* pink-500 with opacity */
-        transition: all 0.15s ease-out;
-      }
-      
-      .cursor-outline.enlarged {
-        transform: translate(-50%, -50%) scale(1.4);
-        background-color: rgba(236, 72, 153, 0.1);
-        border-width: 1.5px;
-      }
-    </style>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            animation: {
-              'float': 'float 3s ease-in-out infinite',
-              'text-gradient': 'text-gradient 8s ease infinite',
-              'subtle-pulse': 'subtle-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'aurora': 'aurora 20s linear infinite alternate',
-              'border-spin': 'border-spin 4s linear infinite',
-              'draw-line': 'draw-line 1s ease-out forwards',
-              'blink': 'blink 1s step-end infinite',
-              'hacker-sway': 'hacker-sway 10s ease-in-out infinite',
-              'chair-rock': 'chair-rock 8s ease-in-out infinite alternate',
-            },
-            keyframes: {
-              float: {
-                '0%': { transform: 'translateY(0px)' },
-                '50%': { transform: 'translateY(-8px)' },
-                '100%': { transform: 'translateY(0px)' },
-              },
-              'text-gradient': {
-                '0%, 100%': {
-                  'background-size': '200% 200%',
-                  'background-position': 'left center',
-                },
-                '50%': {
-                  'background-size': '200% 200%',
-                  'background-position': 'right center',
-                },
-              },
-              'subtle-pulse': {
-                '0%, 100%': { 
-                  boxShadow: '0 0 0 0px rgba(236, 72, 153, 0.5)'
-                },
-                '50%': { 
-                  boxShadow: '0 0 0 6px rgba(236, 72, 153, 0)'
-                },
-              },
-              aurora: {
-                '0%': { transform: 'translateX(-20%) translateY(-20%)' },
-                '25%': { transform: 'translateX(20%) translateY(10%)' },
-                '50%': { transform: 'translateX(20%) translateY(-20%)' },
-                '75%': { transform: 'translateX(-20%) translateY(10%)' },
-                '100%': { transform: 'translateX(-20%) translateY(-20%)' },
-              },
-              'border-spin': {
-                '100%': { transform: 'rotate(360deg)' },
-              },
-              'draw-line': {
-                'from': { transform: 'scaleY(0)' },
-                'to': { transform: 'scaleY(1)' },
-              },
-              'blink': {
-                'from, to': { opacity: 1 },
-                '50%': { opacity: 0 },
-              },
-              'hacker-sway': {
-                '0%, 100%': { transform: 'translateY(-5px) translateX(2px) rotate(-0.5deg)' },
-                '50%': { transform: 'translateY(5px) translateX(-2px) rotate(0.5deg)' },
-              },
-              'chair-rock': {
-                '0%, 100%': { transform: 'rotate(-1.5deg)' },
-                '50%': { transform: 'rotate(1.5deg)' },
-              }
-            },
-          },
-        },
-      };
-    </script>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.1.0/",
-    "react": "https://esm.sh/react@^19.1.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
-    "@google/genai": "https://esm.sh/@google/genai"
-  }
-}
-</script>
-</head>
-  <body class="bg-[#0c0d1e]">
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
-  </body>
-</html>
+  useEffect(() => {
+    const cursorDot = cursorDotRef.current;
+    const cursorOutline = cursorOutlineRef.current;
+
+    if (!cursorDot || !cursorOutline) return;
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let outlineX = window.innerWidth / 2;
+    let outlineY = window.innerHeight / 2;
+    let animationFrameId: number;
+
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+
+    const animate = () => {
+      outlineX += (mouseX - outlineX) * 0.1;
+      outlineY += (mouseY - outlineY) * 0.1;
+
+      cursorDot.style.left = `${mouseX}px`;
+      cursorDot.style.top = `${mouseY}px`;
+      cursorOutline.style.left = `${outlineX}px`;
+      cursorOutline.style.top = `${outlineY}px`;
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    const handleMouseOver = (e: Event) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('a, button, input, textarea, [role="button"], .group, .cursor-pointer')) {
+            cursorOutline.classList.add('enlarged');
+        }
+    };
+    
+    const handleMouseOut = (e: Event) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('a, button, input, textarea, [role="button"], .group, .cursor-pointer')) {
+            cursorOutline.classList.remove('enlarged');
+        }
+    };
+    
+    const handleMouseEnterBody = () => {
+        cursorDot.style.opacity = '1';
+        cursorOutline.style.opacity = '1';
+    };
+
+    const handleMouseLeaveBody = () => {
+        cursorDot.style.opacity = '0';
+        cursorOutline.style.opacity = '0';
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.body.addEventListener('mouseover', handleMouseOver);
+    document.body.addEventListener('mouseout', handleMouseOut);
+    document.body.addEventListener('mouseenter', handleMouseEnterBody);
+    document.body.addEventListener('mouseleave', handleMouseLeaveBody);
+    
+    animate();
+
+    return () => {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.body.removeEventListener('mouseover', handleMouseOver);
+      document.body.removeEventListener('mouseout', handleMouseOut);
+      document.body.removeEventListener('mouseenter', handleMouseEnterBody);
+      document.body.removeEventListener('mouseleave', handleMouseLeaveBody);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <>
+      <div ref={cursorDotRef} className="cursor-dot"></div>
+      <div ref={cursorOutlineRef} className="cursor-outline"></div>
+    </>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <div className="bg-[#0c0d1e] text-white font-sans relative overflow-x-hidden">
+      <CustomCursor />
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      <ParticleCanvas />
+      <div className="relative z-10">
+        <Header />
+        <main className="flex flex-col items-center">
+          <Hero />
+          <Education />
+          <TechStack />
+          <Projects />
+          <OnlinePresence />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+      <Chatbot />
+    </div>
+  );
+};
+
+export default App;
