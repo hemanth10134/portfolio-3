@@ -1,0 +1,5 @@
+{
+  "name": "Interactive Portfolio",
+  "description": "A personal portfolio website with an interactive particle background effect that reacts to cursor movement, inspired by a modern design. It features a typing animation for job titles and a sleek, dark UI.",
+  "requestFramePermissions": []
+}
