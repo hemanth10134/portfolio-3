@@ -60,6 +60,7 @@
               'blink': 'blink 1s step-end infinite',
               'hacker-sway': 'hacker-sway 10s ease-in-out infinite',
               'chair-rock': 'chair-rock 8s ease-in-out infinite alternate',
+              'fade-in': 'fade-in 0.5s ease-out forwards',
             },
             keyframes: {
               float: {
@@ -110,7 +111,11 @@
               'chair-rock': {
                 '0%, 100%': { transform: 'rotate(-1.5deg)' },
                 '50%': { transform: 'rotate(1.5deg)' },
-              }
+              },
+              'fade-in': {
+                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
             },
           },
         },
