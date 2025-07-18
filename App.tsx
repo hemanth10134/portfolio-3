@@ -1,35 +1,131 @@
-import React from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import ParticleCanvas from './components/ParticleCanvas';
-import Education from './components/WorkAndEducation';
-import TechStack from './components/TechStack';
-import Projects from './components/Projects';
-import Footer from './components/Footer';
-import OnlinePresence from './components/OnlinePresence';
-import Contact from './components/Contact';
-import Chatbot from './components/Chatbot';
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Portfolio</title>
+    <style>
+      body, a, button, input, textarea, .cursor-pointer, [role="button"] {
+        cursor: none !important;
+      }
 
-const App: React.FC = () => {
-  return (
-    <div className="bg-[#0c0d1e] text-white font-sans relative overflow-x-hidden">
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-      <ParticleCanvas />
-      <div className="relative z-10">
-        <Header />
-        <main className="flex flex-col items-center">
-          <Hero />
-          <Education />
-          <TechStack />
-          <Projects />
-          <OnlinePresence />
-          <Contact />
-        </main>
-        <Footer />
-      </div>
-      <Chatbot />
-    </div>
-  );
-};
+      .cursor-dot,
+      .cursor-outline {
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
+      }
+      
+      .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #ec4899; /* pink-500 */
+      }
 
-export default App;
+      .cursor-outline {
+        width: 40px;
+        height: 40px;
+        border: 2px solid rgba(236, 72, 153, 0.5); /* pink-500 with opacity */
+        transition: all 0.15s ease-out;
+      }
+      
+      .cursor-outline.enlarged {
+        transform: translate(-50%, -50%) scale(1.4);
+        background-color: rgba(236, 72, 153, 0.1);
+        border-width: 1.5px;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            animation: {
+              'float': 'float 3s ease-in-out infinite',
+              'text-gradient': 'text-gradient 8s ease infinite',
+              'subtle-pulse': 'subtle-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'aurora': 'aurora 20s linear infinite alternate',
+              'border-spin': 'border-spin 4s linear infinite',
+              'draw-line': 'draw-line 1s ease-out forwards',
+              'blink': 'blink 1s step-end infinite',
+              'hacker-sway': 'hacker-sway 10s ease-in-out infinite',
+              'chair-rock': 'chair-rock 8s ease-in-out infinite alternate',
+            },
+            keyframes: {
+              float: {
+                '0%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-8px)' },
+                '100%': { transform: 'translateY(0px)' },
+              },
+              'text-gradient': {
+                '0%, 100%': {
+                  'background-size': '200% 200%',
+                  'background-position': 'left center',
+                },
+                '50%': {
+                  'background-size': '200% 200%',
+                  'background-position': 'right center',
+                },
+              },
+              'subtle-pulse': {
+                '0%, 100%': { 
+                  boxShadow: '0 0 0 0px rgba(236, 72, 153, 0.5)'
+                },
+                '50%': { 
+                  boxShadow: '0 0 0 6px rgba(236, 72, 153, 0)'
+                },
+              },
+              aurora: {
+                '0%': { transform: 'translateX(-20%) translateY(-20%)' },
+                '25%': { transform: 'translateX(20%) translateY(10%)' },
+                '50%': { transform: 'translateX(20%) translateY(-20%)' },
+                '75%': { transform: 'translateX(-20%) translateY(10%)' },
+                '100%': { transform: 'translateX(-20%) translateY(-20%)' },
+              },
+              'border-spin': {
+                '100%': { transform: 'rotate(360deg)' },
+              },
+              'draw-line': {
+                'from': { transform: 'scaleY(0)' },
+                'to': { transform: 'scaleY(1)' },
+              },
+              'blink': {
+                'from, to': { opacity: 1 },
+                '50%': { opacity: 0 },
+              },
+              'hacker-sway': {
+                '0%, 100%': { transform: 'translateY(-5px) translateX(2px) rotate(-0.5deg)' },
+                '50%': { transform: 'translateY(5px) translateX(-2px) rotate(0.5deg)' },
+              },
+              'chair-rock': {
+                '0%, 100%': { transform: 'rotate(-1.5deg)' },
+                '50%': { transform: 'rotate(1.5deg)' },
+              }
+            },
+          },
+        },
+      };
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "@google/genai": "https://esm.sh/@google/genai"
+  }
+}
+</script>
+</head>
+  <body class="bg-[#0c0d1e]">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
